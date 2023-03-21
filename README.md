@@ -1,6 +1,8 @@
 # Ohjelmistotekniikka, harjoitustyö
 
-## Viikko 1
+## Tehtävät
+
+### Viikko 1
 
 Tässä on **lihavoitua** ja *kursivoitua* tekstiä!
 
