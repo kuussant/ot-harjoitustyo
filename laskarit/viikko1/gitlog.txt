@@ -1,0 +1,105 @@
+commit fb0fdce30144271b2631d00e23c6617da8f3d817
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 18:12:09 2023 +0200
+
+    tehtävä 11 aaa
+
+ tiedostoja/file2.txt                 | 0
+ tiedostoja/{file1.txt => file22.txt} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit b70001947f86c96c1745bd257e7092825bb620c5
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 18:04:53 2023 +0200
+
+    tehtävä 11 ensimmäinen
+
+ tiedostoja/file1.txt | 0
+ tiedostoja/file2.txt | 0
+ tiedostoja/file3.txt | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 0af5603349be4949d5b980944b031de5782b4cb0
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:57:49 2023 +0200
+
+    tehtävä 9
+
+ eka.txt    | 4 ++--
+ kolmas.txt | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit f0f403ab25770cc8f9198afe838d0e7300caed0c
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:54:01 2023 +0200
+
+    tiedosto muutettu
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit c205221527d5979f1b975f2057ee7ac0b7d8fd3a
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:51:08 2023 +0200
+
+    toinen poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit b168e9a3cffd41f69af548453f64aadb36cbeb8f
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:48:16 2023 +0200
+
+    tiedosto.txt vähemmän tekstiä
+
+ tiedosto.txt | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+commit 0926219e87aa3335545f461828470bfa767bf491
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:46:58 2023 +0200
+
+    tiedosto.txt paljon tekstiä
+
+ tiedosto.txt | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+commit 156a257225e6e19ae83cd58b4727f501405cf432
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:39:11 2023 +0200
+
+    uusi kommitti
+
+ kolmas.txt      | 1 +
+ stuff/jokin.txt | 0
+ toinen.txt      | 1 +
+ 3 files changed, 2 insertions(+)
+
+commit ebb1db949013e5c5db8ac3bb2b2483beb3b98e10
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:34:10 2023 +0200
+
+    kolmas lisäys
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1f03a4a363a59727ee4504101c93e6e7fa2434ae
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:29:01 2023 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 0b616efcd2755e33eb294c6a74b9fbf6c094fdf7
+Author: kuussant <santeri.kuusisto@helsinki.fi>
+Date:   Tue Mar 21 17:25:09 2023 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
