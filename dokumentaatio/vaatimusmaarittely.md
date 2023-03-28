@@ -2,7 +2,7 @@
 
 ## Sovelluksen tarkoitus
 
-Tarkoituksena on luoda polunetsintäalgoritmeja visualisoiva (ja mahdollisesti tutkiva) ohjelma, jossa käyttäjä voi vapaasti luoda erilaisia reittejä aloitus -ja lopetuspisteille.
+Tarkoituksena on luoda polunetsintäalgoritmeja visualisoiva ohjelma, jossa käyttäjä voi vapaasti luoda erilaisia reittejä aloitus- ja lopetuspisteille.
 
 ## Käyttäjät
 
