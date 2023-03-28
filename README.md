@@ -18,4 +18,8 @@ Pakollinen epäsykroninen muutos
 
 [maksukortti](https://github.com/kuussant/ot-harjoitustyo/tree/master/laskarit/viikko2/maksukortti)
 
-[unicafe]
+[unicafe](https://github.com/kuussant/ot-harjoitustyo/tree/master/laskarit/viikko2/unicafe)
+
+[testikattavuus](https://github.com/kuussant/ot-harjoitustyo/blob/master/laskarit/viikko2/Screenshot%20from%202023-03-24%2017-21-09.png)
+
+[vaatimusmaarittely.md](https://github.com/kuussant/ot-harjoitustyo/blob/master/laskarit/viikko2/vaatimusmaarittely.md)
