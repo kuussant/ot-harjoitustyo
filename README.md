@@ -16,3 +16,6 @@ Pakollinen epäsykroninen muutos
 
 ### Viikko 2
 
+[maksukortti](https://github.com/kuussant/ot-harjoitustyo/tree/master/laskarit/viikko2/maksukortti)
+
+[unicafe]
