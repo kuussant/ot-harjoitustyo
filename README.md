@@ -13,3 +13,6 @@ Tässä taas on yhdistelmä ***molempia***!
 [komentorivi.txt](https://github.com/kuussant/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
 Pakollinen epäsykroninen muutos
+
+### Viikko 2
+
