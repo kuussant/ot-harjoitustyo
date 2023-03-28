@@ -66,7 +66,6 @@ class TestKassapaate(unittest.TestCase):
 
         self.assertEqual(self.kassapaate.kassassa_rahaa, 100500)
     
-
     def test_lataa_negatiivinen_maara_rahaa_kortille_kassan_raha_ei_muutu(self):
         self.kassapaate.lataa_rahaa_kortille(self.maksukortti, -500)
 
@@ -76,7 +75,3 @@ class TestKassapaate(unittest.TestCase):
         self.kassapaate.lataa_rahaa_kortille(self.maksukortti, -500)
 
         self.assertEqual(self.maksukortti.saldo, 1000)
-
-        
-
-    
