@@ -10,21 +10,9 @@ Pelissä on lukuisia eri puolustajia, esim. tykkejä ja sotilaita yms. joita pel
 
 Pelin viholliset koostuvat eri yksiköistä joiden HP-määrä (ja mahdollisesti liikkumisnopeus) vaihtelee. Viholliset liikkuvat tietä pitkin kohti pelaajan tukikohtaa, eivätkä ole uhka itse puolustajille, vaan ainoastaan tukikohdalle.
 
-## Toiminnallisuudet
-
-- Peli on Pygamella toteutettu
-- Pelissä on graafinen käyttöliittymä
-- Peli koostuu eri kartoista (alustavasti 2-3)
-- Pelissä on puolustajia ja vihollisia
-- Pelaajan progressi tallentuu – esim. voitetut kartat
-- Peliä voi ohjata näppäimistöllä ja hiirellä
-
-#### Jatkokehitysideat
-
-- Äänet
-- Pelin kulkua voi halutessaan nopeuttaa
-- Enemmän karttoja, puolustajia ja vihollisia
-- Muita pelimekaniikkoja (?)
+## Dokumentaatio
+- [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
+- [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 
 ## Laskarit
 
