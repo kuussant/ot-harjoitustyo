@@ -14,7 +14,3 @@ Pelin viholliset koostuvat eri yksiköistä joiden HP-määrä (ja mahdollisesti
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 - [Changelog](./dokumentaatio/changelog.md)
-
-## Laskarit
-
-[Laskarit](https://github.com/kuussant/ot-harjoitustyo/tree/main/laskarit)
