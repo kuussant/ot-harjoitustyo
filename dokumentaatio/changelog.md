@@ -2,4 +2,7 @@
 
 - Projektin varsinainen pohja luotu
 - Lisätty muutama alustava luokka: Bullet, Defender, Game
-- Käyttäjä voi nyt asetella puolustajia "kartalle" (jotka eivät vielä tee mitään)
+    - Vain Bullet ja Defender tekevät tekevät tällä hetkellä jotain
+    - Game huolehtii pelin loopista
+    - Defender vastaa puolustajista
+- Käyttäjä voi nyt asetella puolustajia "kartalle" (jotka eivät toistaiseksi tee mitään)
