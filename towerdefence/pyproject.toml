@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "towerdefence"
+version = "0.1.0"
+description = ""
+authors = ["kuussant <santeri.kuusisto@helsinki.fi>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pygame = "^2.6.1"
+invoke = "^2.2.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+coverage = "^7.6.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
