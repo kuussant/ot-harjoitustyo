@@ -35,9 +35,6 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         for target in targets:
-            
-            #Hardcoded to disappear off-screen for now
-
             if (target.pos - self.pos).length() <= 40:
                 target.deal_damage(self.damage)
                 self.kill()
