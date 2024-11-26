@@ -6,3 +6,10 @@
     - Game huolehtii pelin loopista
     - Defender vastaa puolustajista
 - Käyttäjä voi nyt asetella puolustajia "kartalle" (jotka eivät toistaiseksi tee mitään)
+
+## Viikko 4
+
+- Viholliset nyt seuraavat ennaltamäärättyä polkua
+    - Vihollisia voi "spawnata" hiiren oikealla näppäimellä
+- Puolustajat ampuvat vihollisia luodeilla kunnes ne kuolevat
+    - Puolustajia spawnataan hiiren oikealla näppäimellä
