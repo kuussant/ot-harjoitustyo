@@ -14,6 +14,7 @@ Pelin viholliset koostuvat eri yksiköistä joiden HP-määrä (ja mahdollisesti
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 - [Changelog](./dokumentaatio/changelog.md)
+- [Arkkitehtuuri](https://github.com/kuussant/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
 
 ## Asennus
 
