@@ -8,7 +8,7 @@ class TestEnemy(unittest.TestCase):
     def setUp(self):
         pygame.init()
         self.path_nodes = [(0, 0), (100, 100)]
-        self.enemy = Enemy(10, 10, 1, self.path_nodes)
+        self.enemy = Enemy(10, 2, self.path_nodes)
 
         self.enemy_group = pygame.sprite.Group()
         self.enemy_group.add(self.enemy)
@@ -44,7 +44,7 @@ class TestEnemy(unittest.TestCase):
         
         distance = (Vector2(100, 100) - self.enemy.pos).length()
 
-        self.assertAlmostEqual(distance, 0, delta=1)
+        self.assertAlmostEqual(distance, 0, delta=2)
 
 
     # The reached_end_node attribute is true when an enemy gets removed form the group
