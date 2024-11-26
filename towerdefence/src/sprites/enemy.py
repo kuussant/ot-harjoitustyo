@@ -26,9 +26,10 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def deal_damage(self, damage):
-        self.hp -= damage
-        if self.hp <= 0:
-            self.is_alive = False
+        if damage >= 0:
+            self.hp -= damage
+            if self.hp <= 0:
+                self.is_alive = False
 
 
     def move(self):
@@ -36,7 +37,7 @@ class Enemy(pygame.sprite.Sprite):
             target = Vector2(self.path_nodes[self.next_node])
             distance = (target - self.pos).length()
 
-            if distance < 2 + self.movement_speed:
+            if distance < 2 * self.movement_speed:
                 self.next_node += 1
             normalized = (target - self.pos).normalize()
 
@@ -45,7 +46,6 @@ class Enemy(pygame.sprite.Sprite):
 
         else:
             self.reached_end_node = True
-            self.next_node = 0
         
 
     def has_died(self):
