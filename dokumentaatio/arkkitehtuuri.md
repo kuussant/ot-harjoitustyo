@@ -4,7 +4,7 @@
 classDiagram
       Game "1" <-- "*" Defender
       Game "1" <-- "*" Enemy
-      Defender "1" <-- Bullet
+      Defender "1" <-- "*" Bullet
 
       class Defender{
           damage
