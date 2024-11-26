@@ -2,19 +2,18 @@ import pygame
 from pygame.math import Vector2
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, damage, speed, pos, direction, radius):
+    def __init__(self, damage, pos, direction):
         super().__init__()
-        self.radius = radius
-        self.image = pygame.Surface((self.radius * 2, self.radius * 2), pygame.SRCALPHA)
+        self.radius = 5
+        self.image = pygame.Surface((self.radius * 2, self.radius * 2))
         pygame.draw.circle(self.image, (255, 0, 0), (self.radius, self.radius), self.radius)
 
         self.pos = Vector2(pos)
         self.rect = self.image.get_rect(center=self.pos)
-        
+
         self.max_travel_dist = 2000
         self.distance_travelled = 0
         self.damage = damage
-        self.speed = speed
         self.direction = direction
 
 
@@ -23,7 +22,7 @@ class Bullet(pygame.sprite.Sprite):
 
 
     def move(self, targets):
-        velocity = self.direction * self.speed
+        velocity = self.direction * 10
 
         self.distance_travelled = (self.pos - velocity).length()
 
@@ -38,4 +37,3 @@ class Bullet(pygame.sprite.Sprite):
             if (target.pos - self.pos).length() <= 40:
                 target.deal_damage(self.damage)
                 self.kill()
-            
