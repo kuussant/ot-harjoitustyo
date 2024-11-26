@@ -14,3 +14,63 @@ Pelin viholliset koostuvat eri yksiköistä joiden HP-määrä (ja mahdollisesti
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 - [Changelog](./dokumentaatio/changelog.md)
+
+## Asennus
+
+1. Asenna riippuvuudet komennolla:
+
+```bash
+poetry install
+```
+
+2. Suorita vaadittavat alustustoimenpiteet komennolla:
+
+```bash
+poetry run invoke build
+```
+
+3. Käynnistä peli komennolla:
+
+```bash
+poetry run invoke start
+```
+
+## Komentorivitoiminnot
+
+### Ohjelman suorittaminen
+
+Pelin voi käynnistää komennolla:
+
+```bash
+poetry run invoke start
+```
+
+### Testaus
+
+Testit suoritetaan komennolla:
+
+```bash
+poetry run invoke test
+```
+
+### Testikattavuus
+
+Testikattavuusraportin voi generoida komennolla:
+
+```bash
+poetry run invoke coverage-report
+```
+
+Raportti generoituu _htmlcov_-hakemistoon.
+
+### Pylint
+
+Tiedoston [.pylintrc](./.pylintrc) määrittelemät tarkistukset voi suorittaa komennolla:
+
+```bash
+poetry run invoke lint
+```
+
+### Pelaaminen
+
+Pelissä voi toistaiseksi asetella puolustajia hiiren vasemmalla napilla ja vihollisia hiiren oikealla napilla
