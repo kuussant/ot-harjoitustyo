@@ -24,13 +24,7 @@ Pelin viholliset koostuvat eri yksiköistä joiden HP-määrä (ja mahdollisesti
 poetry install
 ```
 
-2. Suorita vaadittavat alustustoimenpiteet komennolla:
-
-```bash
-poetry run invoke build
-```
-
-3. Käynnistä peli komennolla:
+2. Käynnistä peli komennolla:
 
 ```bash
 poetry run invoke start
