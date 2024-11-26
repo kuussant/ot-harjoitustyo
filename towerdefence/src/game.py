@@ -68,7 +68,8 @@ class Game:
 
             if self.time_elapsed >= 1000:
                 self.defender_group.update(self.enemy_group, self.bullet_group)
-
+                print(self.bullet_group)
+                
                 self.time_elapsed = 0
 
             self.all_sprites.draw(self.display)

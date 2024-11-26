@@ -43,4 +43,4 @@ class Defender(pygame.sprite.Sprite):
                 
             if closest_diff.length() <= self.range:
                 direction = closest_diff.normalize()
-                bullets.add(Bullet(2, 40, self.pos, direction, 3))
+                bullets.add(Bullet(2, 10, self.pos, direction, 5))
