@@ -17,6 +17,11 @@ WALL_TILE = (15, 16)
 BASE_TILE = (17, 20)
 GOB_BASE_TILE = (21, 24)
 
+MAP_OFFSET = (TILE_SIZE, TILE_SIZE)
+
+MAP_NAME = os.path.join(dirname, "maps", "map1.json")
+TILE_SHEET = os.path.join(dirname, "assets", "td_tiles_h.png")
+
 class MapEditor:
     def __init__(self):
         pygame.init()
@@ -33,9 +38,7 @@ class MapEditor:
         
         self.sprites_list = []
 
-        self.tiles_sheet = pygame.image.load(
-            os.path.join(dirname, "assets", "td_tiles_h.png")
-        )
+        self.tiles_sheet = pygame.image.load(TILE_SHEET)
 
         self.sprites_list = self.create_sprite_list(self.tiles_sheet, IMG_SIZE, IMG_SIZE)
 
@@ -51,14 +54,14 @@ class MapEditor:
 
                 if pygame.mouse.get_pressed()[0]:
                     mouse_pos = pygame.mouse.get_pos()
-                    map_index = self.get_map_tile_by_mouse_coord(self.map, mouse_pos)
+                    map_index = self.get_map_tile_by_mouse_coord(self.map, mouse_pos, MAP_OFFSET)
                     if map_index != (None, None):
                         self.map[map_index[0]][map_index[1]] = self.img_i
                         self.update_path()
 
                 if pygame.mouse.get_pressed()[2]:
                     mouse_pos = pygame.mouse.get_pos()
-                    map_index = self.get_map_tile_by_mouse_coord(self.map, mouse_pos)
+                    map_index = self.get_map_tile_by_mouse_coord(self.map, mouse_pos, MAP_OFFSET)
                     if map_index != (None, None):
                         self.map[map_index[0]][map_index[1]] = None
                         self.update_path()
@@ -66,7 +69,7 @@ class MapEditor:
                 if pygame.mouse.get_pressed()[1]:
                     print("Path")
                     mouse_pos = pygame.mouse.get_pos()
-                    map_index = self.get_map_tile_by_mouse_coord(self.map, mouse_pos)
+                    map_index = self.get_map_tile_by_mouse_coord(self.map, mouse_pos, MAP_OFFSET)
                     if map_index != (None, None):
                         pass
 
@@ -90,11 +93,13 @@ class MapEditor:
                         self.randomize_map_free_tiles(self.map)
 
                     if event.key == pygame.K_s:
-                        self.save_map(self.map)
+                        self.save_map(self.map, self.path_nodes, MAP_NAME)
 
                     if event.key == pygame.K_l:
-                        self.map = self.load_map()
-                        self.update_path()
+                        map_dict = self.load_map(MAP_NAME)
+                        if map_dict:
+                            self.map = map_dict["map"]
+                            self.path_nodes = map_dict["path"]
 
                     if event.key == pygame.K_p:
                         draw_path = not draw_path
@@ -132,7 +137,7 @@ class MapEditor:
             path = self.optimize_path(path)
         
             for node in path:
-                self.path_nodes.append(self.get_tile_center_coords_by(node))
+                self.path_nodes.append(self.get_tile_center_coords_by(node, MAP_OFFSET))
 
     def generate_path(self, map):
         path = []
@@ -259,28 +264,27 @@ class MapEditor:
         return orientation
                 
 
-    def get_map_tile_by_mouse_coord(self, map_tiles, pos):
+    def get_map_tile_by_mouse_coord(self, map_tiles, pos, offset):
         pos_x = pos[0]
         pos_y = pos[1]
         for i in range(0, len(map_tiles)):
             y_tile = (i+1)*TILE_SIZE
             for j in range(0, len(map_tiles)):
                 x_tile = (j+1)*TILE_SIZE
-                if pos_x >= x_tile and pos_x <= x_tile + TILE_SIZE:
-                    if pos_y >= y_tile and pos_y <= y_tile + TILE_SIZE:
+                if pos_x >= x_tile and pos_x <= x_tile + offset[0]:
+                    if pos_y >= y_tile and pos_y <= y_tile + offset[1]:
                         return (i, j)
         return (None, None)
     
     # NEEDS OFFSET
-    def get_tile_center_coords_by(self, coords):
+    def get_tile_center_coords_by(self, coords, offset):
         tile_x = TILE_SIZE + coords[1]*TILE_SIZE
         tile_y = TILE_SIZE + coords[0]*TILE_SIZE
 
         tile_center_x = tile_x - (TILE_SIZE//2)
         tile_center_y = tile_y - (TILE_SIZE//2)
 
-        return (tile_center_x+TILE_SIZE, tile_center_y+TILE_SIZE)
-
+        return (tile_center_x+offset[0], tile_center_y+offset[1])
 
 
     # tile = (tile_type, tile_sheet_index)
@@ -324,21 +328,21 @@ class MapEditor:
         return sprites
     
 
-    def save_map(self, map):
-        with open("test_map.txt", "w") as f:
-            f.write(json.dumps(map))
+    def save_map(self, map, path, map_name):
+        with open(map_name, "w") as f:
+            map_dict = {"map": map, "path": path}
+            json_object = json.dumps(map_dict, indent=4)
+            f.write(json_object)
         print("map saved")
     
 
-    def load_map(self):
-        out_map = []
-        with open("test_map.txt", "r") as f:
+    def load_map(self, map_name):
+        out_map = None
+        try:
+            with open(map_name, "r") as f:
+                out_map = json.load(f)
 
-            for row in json.load(f):
-                new_row = []
-                for col in row:
-                    new_row.append(col)
-
-                out_map.append(new_row)
-
-        return out_map
+            return out_map
+        except:
+            print("No map", map_name)
+            return None
