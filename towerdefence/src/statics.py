@@ -1,0 +1,17 @@
+# Asset image size
+IMG_SIZE = 32
+
+# Game tile size
+TILE_SIZE = 64
+
+# Tile type ids
+FREE_TILE = 0
+ROAD_TILE = 1
+ROAD_TILE_H = 2
+ROAD_TILE_LD = 3
+ROAD_TILE_LU = 4
+ROAD_TILE_RU = 5
+ROAD_TILE_RD = 6
+WALL_TILE = 7
+BASE_TILE = 8
+ENEMY_BASE_TILE = 9
