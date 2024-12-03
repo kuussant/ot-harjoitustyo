@@ -6,7 +6,7 @@ from utils.sprite_utils import *
 
 from sprites.defender import Defender
 from sprites.enemy import Enemy
-from map import Map
+from sprites.map import Map
 
 MAP_NAME = os.path.join(DIRNAME, "maps", "map1.json")
 

@@ -7,6 +7,7 @@ from pygame.math import Vector2
 class TestEnemy(unittest.TestCase):
     def setUp(self):
         pygame.init()
+        pygame.display.set_mode((800, 600))
         self.path_nodes = [(0, 0), (100, 100)]
         self.enemy = Enemy(10, 2, self.path_nodes)
 

@@ -73,6 +73,7 @@ class MapEditor:
                         if map_dict:
                             self.map = map_dict["map"]
                             self.path_nodes = map_dict["path"]
+                            print(self.path_nodes)
 
                     if event.key == pygame.K_p:
                         show_path = not show_path

@@ -4,7 +4,11 @@ from sys import platform
 
 @task
 def start(ctx):
-    ctx.run("python3 src/index.py", pty=True)
+    ctx.run("python3 src/index.py game", pty=True)
+
+@task
+def editor(ctx):
+    ctx.run("python3 src/index.py editor", pty=True)
 
 @task
 def test(ctx):
