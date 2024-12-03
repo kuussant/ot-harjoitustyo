@@ -214,12 +214,13 @@ class MapEditor:
 
 
     def check_tile(self, tile_id):
-        if tile_id >= ROAD_TILE[0] and tile_id <= ROAD_TILE[1]:
-            return ROAD_TILE
-        elif tile_id >= BASE_TILE[0] and tile_id <= BASE_TILE[1]:
-            return BASE_TILE
-        elif tile_id >= GOB_BASE_TILE[0] and tile_id <= GOB_BASE_TILE[1]:
-            return GOB_BASE_TILE
+        if tile_id:
+            if tile_id >= ROAD_TILE[0] and tile_id <= ROAD_TILE[1]:
+                return ROAD_TILE
+            elif tile_id >= BASE_TILE[0] and tile_id <= BASE_TILE[1]:
+                return BASE_TILE
+            elif tile_id >= GOB_BASE_TILE[0] and tile_id <= GOB_BASE_TILE[1]:
+                return GOB_BASE_TILE
         return None
 
 
