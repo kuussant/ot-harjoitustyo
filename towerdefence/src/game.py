@@ -1,13 +1,20 @@
 import pygame
 
+from statics import *
+from utils.editor_utils import *
+from utils.sprite_utils import *
+
 from sprites.defender import Defender
 from sprites.enemy import Enemy
+from map import Map
+
+MAP_NAME = os.path.join(DIRNAME, "maps", "map1.json")
 
 class Game:
     def __init__(self):
         pygame.init()
         self.time_elapsed = 0
-        self.display = pygame.display.set_mode((1000, 800))
+        self.display = pygame.display.set_mode((TILE_SIZE*12, TILE_SIZE*12))
 
         self.all_sprites = pygame.sprite.Group()
         self.defender_group = pygame.sprite.Group()
@@ -16,7 +23,11 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
-        self.path_nodes = [(100, 0), (100, 700), (500, 700), (500, 200), (900, 200), (900, 800)]
+        tiles_sheet = pygame.image.load(TILE_SHEET)
+        tiles_list = create_sprite_list(tiles_sheet, IMG_SIZE, IMG_SIZE, 2)
+        self.map = Map(load_map(MAP_NAME), tiles_list)
+
+        self.path_nodes = self.map.get_path()
 
     def start_game(self):
         while True:
@@ -31,6 +42,7 @@ class Game:
                     new_defender = Defender(2, 300, (x, y), self.bullet_group)
                     self.defender_group.add(new_defender)
                     self.all_sprites.add(new_defender)
+                    print(self.map.get_path())
 
                 if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[2]:
                     new_enemy = Enemy(10, 2, self.path_nodes)
@@ -38,10 +50,9 @@ class Game:
                     self.all_sprites.add(new_enemy)
 
 
-            self.display.fill((30, 30, 30))
-
-            # Enemy path showed
-            pygame.draw.lines(self.display, "red", False, self.path_nodes)
+            self.display.fill((0, 0, 0))
+            
+            self.map.draw(self.display)
 
             self.enemy_group.update()
             self.bullet_group.update(self.enemy_group)

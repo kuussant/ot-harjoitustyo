@@ -1,17 +1,20 @@
+import os
+
+DIRNAME = os.path.dirname(__file__)
+
+TILE_SHEET = os.path.join(DIRNAME, "assets", "td_tiles_h.png")
+
 # Asset image size
 IMG_SIZE = 32
 
 # Game tile size
 TILE_SIZE = 64
 
-# Tile type ids
-FREE_TILE = 0
-ROAD_TILE = 1
-ROAD_TILE_H = 2
-ROAD_TILE_LD = 3
-ROAD_TILE_LU = 4
-ROAD_TILE_RU = 5
-ROAD_TILE_RD = 6
-WALL_TILE = 7
-BASE_TILE = 8
-ENEMY_BASE_TILE = 9
+MAP_OFFSET = (TILE_SIZE, TILE_SIZE)
+
+# Tile type indexes
+FREE_TILE = (0, 8)
+ROAD_TILE = (9, 14)
+WALL_TILE = (15, 16)
+BASE_TILE = (17, 20)
+GOB_BASE_TILE = (21, 24)
