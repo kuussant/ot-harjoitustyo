@@ -69,3 +69,24 @@ poetry run invoke lint
 ### Pelaaminen
 
 Pelissä voi toistaiseksi asetella puolustajia hiiren vasemmalla napilla ja vihollisia hiiren oikealla napilla
+
+### Editori
+
+Pelissä on editori jonka voi avata komennolla:
+
+```bash
+poetry run invoke editor
+```
+Kontrollit:
+- Hiiren rullalla voi valita tilen jonka haluaa asettaa kartalle
+- Hiiren vasen klikkaus lisää valitun tilen
+- Hiiren oikea klikkaus poistaa tilen
+- L-näppäin lataa tallenetun kartan (toistaiseksi vain yksi tiedosto jolla voi leikkiä)
+- S-näppäin tallentaa uuden kartan (vanhan tilalle)
+- G-näppäimellä voi näyttää tai piilottaa ruudukon joka helpottaa kartan suunnittelussa
+- P-näppäin näyttää toimivan vihollispolun vihreällä
+
+Jotta vihollispolku toimii, on rakennettava polku vihollisten tukikohdasta (puinen rakennus) pelaajan tukikohtaan (linna).
+Kartalla saa olla vain yksi vihollistukikohta ja yksi pelaajan linna, jotta vihollispolku olisi validi.
+
+
