@@ -106,6 +106,6 @@ class MapEditor:
 
 
     def set_tile(self, map_index, value):
-        if map_index != (None, None):
+        if map_index is not None:
             self.map[map_index[0]][map_index[1]] = value
             self.path_nodes = update_path(self.map, MAP_OFFSET)

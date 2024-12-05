@@ -1,22 +1,39 @@
 import pygame
 from statics import *
-from utils.map_utils import *
+from utils.sprite_utils import *
+from sprites.tile import Tile
 
 class Map:
-    def __init__(self, map_data, sprite_list):
-        self.map = map_data["map"]
-        self.sprite_list = sprite_list
-        self.path = map_data["path"]
+    def __init__(self, map_data, pos):
+        self._map = map_data["map"]
+        self._path = map_data["path"]
+        self._pos = pos
 
-    def set_tile(self, map_index, tile_id):
-        self.map_data[map_index[0]][map_index[1]] = tile_id
+        tiles_image = pygame.image.load(
+            os.path.join(DIRNAME, "assets", "td_tiles_h.png")
+        )
+
+        self.tiles_list = create_sprite_list(tiles_image, IMG_SIZE, IMG_SIZE, 2)
+
+
+    def get_pos(self):
+        return self._pos
+
 
     def get_path(self):
-        return self.path
+        return self._path
     
-    def draw(self, display):
-        for i, row in enumerate(self.map):
-            for j, col in enumerate(row):
-                if col != None:
-                    img = self.sprite_list[col]
-                    display.blit(img, (j*TILE_SIZE+TILE_SIZE, i*TILE_SIZE+TILE_SIZE))
+
+    def get_map(self):
+        return self._map
+    
+
+    def load_map(self):
+        sprite_group = pygame.sprite.Group()
+        for i, row in enumerate(self._map):
+            for j, sprite_id in enumerate(row):
+                if sprite_id is not None:
+                    img = self.tiles_list[sprite_id]
+                    tile = Tile(img, (j*TILE_SIZE+self._pos[0], i*TILE_SIZE+self._pos[1]))
+                    sprite_group.add(tile)
+        return sprite_group

@@ -22,12 +22,9 @@ class Bullet(pygame.sprite.Sprite):
 
 
     def move(self, targets):
-        velocity = self.direction * 10
-
+        velocity = self.direction * 5
         self.distance_travelled = (self.pos - velocity).length()
-
         self.pos += velocity
-
         self.rect.center = self.pos
 
         if self.distance_travelled >= self.max_travel_dist:

@@ -25,10 +25,10 @@ def generate_path(map):
     # find goblin base and home base
     for i, row in enumerate(map):
         for j, col in enumerate(row):
-            if check_path_tile(col) == GOB_BASE_TILE:
+            if get_tile_type(col) == GOB_BASE_TILE:
                 gob_base = ((i, j), col)
                 gob_base_count += 1
-            elif check_path_tile(col) == BASE_TILE:
+            elif get_tile_type(col) == BASE_TILE:
                 home_base_count += 1
 
     # current pos: 0 = map index, 1 = tile_id
@@ -38,12 +38,12 @@ def generate_path(map):
         prev_tile_direction = None
 
         while not path_done:
-            orientation = check_path_tile_orientation(check_path_tile(current_pos[1]), current_pos[1])
+            orientation = check_path_tile_orientation(get_tile_type(current_pos[1]), current_pos[1])
             
             if not orientation:
                 return []
             
-            if check_path_tile(current_pos[1]) == BASE_TILE:
+            if get_tile_type(current_pos[1]) == BASE_TILE:
                 path_done = True
             
             path.append(current_pos[0])
@@ -96,15 +96,18 @@ def optimize_path(path):
         return None
 
 
-def check_path_tile(tile_id):
-    if tile_id:
-        if tile_id >= ROAD_TILE[0] and tile_id <= ROAD_TILE[1]:
+def get_tile_type(tile_id):
+    if tile_id is not None:
+        if FREE_TILE[0] <= tile_id <= FREE_TILE[1]:
+            return FREE_TILE
+        elif ROAD_TILE[0] <= tile_id <= ROAD_TILE[1]:
             return ROAD_TILE
-        elif tile_id >= BASE_TILE[0] and tile_id <= BASE_TILE[1]:
+        elif WALL_TILE[0] <= tile_id <= WALL_TILE[1]:
+            return WALL_TILE
+        elif BASE_TILE[0] <= tile_id <= BASE_TILE[1]:
             return BASE_TILE
-        elif tile_id >= GOB_BASE_TILE[0] and tile_id <= GOB_BASE_TILE[1]:
+        elif GOB_BASE_TILE[0] <= tile_id <= GOB_BASE_TILE[1]:
             return GOB_BASE_TILE
-        
     return None
 
 
@@ -132,7 +135,7 @@ def check_path_tile_orientation(tile, tile_id):
             case 5:
                 orientation = (False, True, False, True)
     
-    else:
+    elif tile == GOB_BASE_TILE or tile == BASE_TILE:
         match tile_orientation:
             case 0:
                 orientation = (True, False, False, False)
@@ -157,7 +160,7 @@ def get_map_tile_by_mouse_coord(map_tiles, pos, offset):
                 if pos_y >= y_tile and pos_y <= y_tile + offset[1]:
                     return (i, j)
                 
-    return (None, None)
+    return None
 
 # NEEDS OFFSET
 def get_tile_center_coords_by(coords, offset):
@@ -179,7 +182,7 @@ def set_map_tile(tile_type_and_index, map_tiles, ij):
 def draw_map(display, sprites_list, map):
     for i, row in enumerate(map):
         for j, col in enumerate(row):
-            if col != None:
+            if col is not None:
                 img = sprites_list[col]
                 display.blit(img, (j*TILE_SIZE+TILE_SIZE, i*TILE_SIZE+TILE_SIZE))
 

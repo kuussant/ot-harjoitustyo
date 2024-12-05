@@ -9,15 +9,19 @@ dirname = os.path.dirname(__file__)
 class Defender(pygame.sprite.Sprite):
     cost = 10
 
-    def __init__(self, damage, attack_range, pos, bullet_group):
+    def __init__(self, damage, attack_range, attack_speed, pos):
         super().__init__()
         self.damage = damage
         self.range = attack_range
-        self.bullet_group = bullet_group
+        self.attack_speed = attack_speed * 1000
+        self.update_time = 0
 
+        # Needs refactoring
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "robot.png")
         )
+
+        self.image = pygame.transform.scale(self.image, (self.image.get_width()/1.5, self.image.get_height()/1.5))
 
         self.rect = self.image.get_rect()
 
@@ -25,16 +29,21 @@ class Defender(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.pos)
 
 
-    def update(self, targets, bullets):
-        self.shoot(targets, bullets)
+    def update(self, target_group, bullet_group, all_sprites):
+        self.shoot(target_group, bullet_group, all_sprites)
 
 
-    def shoot(self, targets, bullets):
-        if targets:
+    def shoot(self, target_group, bullet_group, all_sprites):
+        if pygame.time.get_ticks() - self.update_time > self.attack_speed:
+            self.update_time = pygame.time.get_ticks()
+        else:
+            return
+        
+        if target_group:
             closest = 9999
             closest_diff = Vector2(0, 0)
 
-            for target in targets:
+            for target in target_group:
                 difference = target.pos - self.pos
 
                 if difference.length() <= closest:
@@ -43,4 +52,8 @@ class Defender(pygame.sprite.Sprite):
 
             if closest_diff.length() <= self.range:
                 direction = closest_diff.normalize()
-                bullets.add(Bullet(self.damage, self.pos, direction))
+                bullet = Bullet(self.damage, self.pos, direction)
+                bullet_group.add(bullet)
+                all_sprites.add(bullet)
+        return
+
