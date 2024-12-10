@@ -2,6 +2,7 @@ import sys
 from game import Game
 from map_editor import MapEditor
 
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: python3 index.py [game|editor]")

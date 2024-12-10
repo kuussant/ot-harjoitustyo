@@ -25,3 +25,7 @@ def lint(ctx):
     ctx.run("pylint src", pty=True)
     if platform != "win32":
         call(("xdg-open", "htmlcov/index.html"))
+
+@task
+def format(ctx):
+    ctx.run("poetry run autopep8 --in-place --recursive src", pty=True)

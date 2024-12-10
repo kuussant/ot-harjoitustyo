@@ -2,7 +2,7 @@ import os
 import pygame
 
 from statics import *
-from utils.sprite_utils import *
+import utils.asset_utils
 from utils.editor_utils import *
 
 DIRNAME = os.path.dirname(__file__)
@@ -11,12 +11,14 @@ MAP_SIZE = 10
 
 MAP_NAME = os.path.join(DIRNAME, "maps", "map1.json")
 
+
 class MapEditor:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Map Editor")
-
-        self.display = pygame.display.set_mode((TILE_SIZE*12, TILE_SIZE*12), pygame.RESIZABLE)
+        self.display = pygame.display.set_mode(
+            (TILE_SIZE*12, TILE_SIZE*12), pygame.RESIZABLE)
+        self.assets = utils.asset_utils.load()
         self.clock = pygame.time.Clock()
 
         self.map = [[0]*MAP_SIZE for _ in range(MAP_SIZE)]
@@ -25,9 +27,7 @@ class MapEditor:
         self.img_i = 0
         self.path_nodes = []
 
-        self.tiles_sheet = pygame.image.load(TILE_SHEET)
-        self.sprites_list = create_sprite_list(self.tiles_sheet, IMG_SIZE, IMG_SIZE, 2)
-
+        self.sprites_list = self.assets[0]["map_tiles"]
 
     def start_editor(self):
         show_grid = True
@@ -39,11 +39,13 @@ class MapEditor:
                     exit()
 
                 if pygame.mouse.get_pressed()[0]:
-                    map_index = self.get_map_index_by_mouse(pygame.mouse.get_pos())
+                    map_index = self.get_map_index_by_mouse(
+                        pygame.mouse.get_pos())
                     self.set_tile(map_index, self.img_i)
 
                 if pygame.mouse.get_pressed()[2]:
-                    map_index = self.get_map_index_by_mouse(pygame.mouse.get_pos())
+                    map_index = self.get_map_index_by_mouse(
+                        pygame.mouse.get_pos())
                     self.set_tile(map_index, None)
 
                 # Scroll selected image sprite sheet
@@ -78,32 +80,31 @@ class MapEditor:
                     if event.key == pygame.K_p:
                         show_path = not show_path
                         print("Draw path:", show_path)
-            
+
             self.display.fill((30, 30, 30))
 
-            #Show sprite preview
+            # Show sprite preview
             self.current_img = self.sprites_list[self.img_i]
-            
+
             draw_map(self.display, self.sprites_list, self.map)
             self.display.blit(self.current_img, (0, 0))
 
             if show_grid:
                 draw_grid(self.display)
 
-            #Draw path
+            # Draw path
             if show_path:
                 if len(self.path_nodes) > 1:
-                    pygame.draw.lines(self.display, "green", False, self.path_nodes, width=2)
+                    pygame.draw.lines(self.display, "green",
+                                      False, self.path_nodes, width=2)
 
             pygame.display.flip()
 
             self.clock.tick(60)
 
-
     def get_map_index_by_mouse(self, mouse_pos):
         mouse_pos = pygame.mouse.get_pos()
         return get_map_tile_by_mouse_coord(self.map, mouse_pos, MAP_OFFSET)
-
 
     def set_tile(self, map_index, value):
         if map_index is not None:

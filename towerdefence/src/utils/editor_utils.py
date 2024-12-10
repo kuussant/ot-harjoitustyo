@@ -1,17 +1,18 @@
 import random
 import pygame
 import json
-from statics import *
+import statics as s
 
-def update_path(map, MAP_OFFSET):
+
+def update_path(map, map_pos):
     path_nodes = []
     path = generate_path(map)
-    
+
     if path:
         path = optimize_path(path)
-    
+
         for node in path:
-            path_nodes.append(get_tile_center_coords_by(node, MAP_OFFSET))
+            path_nodes.append(get_tile_center_by_index(node, map_pos))
 
     return path_nodes
 
@@ -25,10 +26,10 @@ def generate_path(map):
     # find goblin base and home base
     for i, row in enumerate(map):
         for j, col in enumerate(row):
-            if get_tile_type(col) == GOB_BASE_TILE:
+            if get_tile_type(col) == s.GOB_BASE_TILE:
                 gob_base = ((i, j), col)
                 gob_base_count += 1
-            elif get_tile_type(col) == BASE_TILE:
+            elif get_tile_type(col) == s.BASE_TILE:
                 home_base_count += 1
 
     # current pos: 0 = map index, 1 = tile_id
@@ -38,18 +39,19 @@ def generate_path(map):
         prev_tile_direction = None
 
         while not path_done:
-            orientation = check_path_tile_orientation(get_tile_type(current_pos[1]), current_pos[1])
-            
+            orientation = check_path_tile_orientation(
+                get_tile_type(current_pos[1]), current_pos[1])
+
             if not orientation:
                 return []
-            
-            if get_tile_type(current_pos[1]) == BASE_TILE:
+
+            if get_tile_type(current_pos[1]) == s.BASE_TILE:
                 path_done = True
-            
+
             path.append(current_pos[0])
 
             current_tile_direction = [0, 0]
-            
+
             for i, next in enumerate(orientation):
                 if i == 0 and next:
                     current_tile_direction[0] -= 1
@@ -69,7 +71,8 @@ def generate_path(map):
                 current_tile_direction = [sum_x, sum_y]
                 prev_tile_direction = current_tile_direction
 
-            next_index = (current_pos[0][0] + current_tile_direction[1], current_pos[0][1] + current_tile_direction[0])
+            next_index = (current_pos[0][0] + current_tile_direction[1],
+                          current_pos[0][1] + current_tile_direction[0])
             current_pos = (next_index, map[next_index[0]][next_index[1]])
 
     return path
@@ -80,7 +83,7 @@ def optimize_path(path):
     if path:
         prev = None
         optimized_path.append(path[0])
-    
+
         for i in range(0, len(path) - 1):
             if not prev:
                 prev = path[i]
@@ -98,30 +101,30 @@ def optimize_path(path):
 
 def get_tile_type(tile_id):
     if tile_id is not None:
-        if FREE_TILE[0] <= tile_id <= FREE_TILE[1]:
-            return FREE_TILE
-        elif ROAD_TILE[0] <= tile_id <= ROAD_TILE[1]:
-            return ROAD_TILE
-        elif WALL_TILE[0] <= tile_id <= WALL_TILE[1]:
-            return WALL_TILE
-        elif BASE_TILE[0] <= tile_id <= BASE_TILE[1]:
-            return BASE_TILE
-        elif GOB_BASE_TILE[0] <= tile_id <= GOB_BASE_TILE[1]:
-            return GOB_BASE_TILE
+        if s.FREE_TILE[0] <= tile_id <= s.FREE_TILE[1]:
+            return s.FREE_TILE
+        elif s.ROAD_TILE[0] <= tile_id <= s.ROAD_TILE[1]:
+            return s.ROAD_TILE
+        elif s.WALL_TILE[0] <= tile_id <= s.WALL_TILE[1]:
+            return s.WALL_TILE
+        elif s.BASE_TILE[0] <= tile_id <= s.BASE_TILE[1]:
+            return s.BASE_TILE
+        elif s.GOB_BASE_TILE[0] <= tile_id <= s.GOB_BASE_TILE[1]:
+            return s.GOB_BASE_TILE
     return None
 
 
 def check_path_tile_orientation(tile, tile_id):
     if not tile:
         return None
-    
+
     # tuple: (up, down, left, right)
     orientation = None
 
     tile_orientation = tile_id - tile[0]
 
-    if tile == ROAD_TILE:
-        match tile_orientation:    
+    if tile == s.ROAD_TILE:
+        match tile_orientation:
             case 0:
                 orientation = (False, False, True, True)
             case 1:
@@ -134,8 +137,8 @@ def check_path_tile_orientation(tile, tile_id):
                 orientation = (False, True, True, False)
             case 5:
                 orientation = (False, True, False, True)
-    
-    elif tile == GOB_BASE_TILE or tile == BASE_TILE:
+
+    elif tile == s.GOB_BASE_TILE or tile == s.BASE_TILE:
         match tile_orientation:
             case 0:
                 orientation = (True, False, False, False)
@@ -147,28 +150,30 @@ def check_path_tile_orientation(tile, tile_id):
                 orientation = (False, False, False, True)
 
     return orientation
-            
+
 
 def get_map_tile_by_mouse_coord(map_tiles, pos, offset):
     pos_x = pos[0]
     pos_y = pos[1]
     for i in range(0, len(map_tiles)):
-        y_tile = (i+1)*TILE_SIZE
+        y_tile = (i+1)*s.TILE_SIZE
         for j in range(0, len(map_tiles)):
-            x_tile = (j+1)*TILE_SIZE
+            x_tile = (j+1)*s.TILE_SIZE
             if pos_x >= x_tile and pos_x <= x_tile + offset[0]:
                 if pos_y >= y_tile and pos_y <= y_tile + offset[1]:
                     return (i, j)
-                
+
     return None
 
 # NEEDS OFFSET
-def get_tile_center_coords_by(coords, offset):
-    tile_x = TILE_SIZE + coords[1]*TILE_SIZE
-    tile_y = TILE_SIZE + coords[0]*TILE_SIZE
 
-    tile_center_x = tile_x - (TILE_SIZE//2)
-    tile_center_y = tile_y - (TILE_SIZE//2)
+
+def get_tile_center_by_index(pos, offset):
+    tile_x = s.TILE_SIZE + pos[1]*s.TILE_SIZE
+    tile_y = s.TILE_SIZE + pos[0]*s.TILE_SIZE
+
+    tile_center_x = tile_x - (s.TILE_SIZE//2)
+    tile_center_y = tile_y - (s.TILE_SIZE//2)
 
     return (tile_center_x+offset[0], tile_center_y+offset[1])
 
@@ -184,20 +189,21 @@ def draw_map(display, sprites_list, map):
         for j, col in enumerate(row):
             if col is not None:
                 img = sprites_list[col]
-                display.blit(img, (j*TILE_SIZE+TILE_SIZE, i*TILE_SIZE+TILE_SIZE))
+                display.blit(img, (j*s.TILE_SIZE+s.TILE_SIZE,
+                             i*s.TILE_SIZE+s.TILE_SIZE))
 
 
 def randomize_map_free_tiles(map):
     for i, row in enumerate(map):
         for j, col in enumerate(row):
-            if col >= FREE_TILE[0] and col <= FREE_TILE[1]:
-                map[i][j] = random.randint(FREE_TILE[0], FREE_TILE[1])
+            if col >= s.FREE_TILE[0] and col <= s.FREE_TILE[1]:
+                map[i][j] = random.randint(s.FREE_TILE[0], s.FREE_TILE[1])
 
 
 def draw_grid(display):
-    for x in range(TILE_SIZE, display.get_width() - TILE_SIZE, TILE_SIZE):
-        for y in range(TILE_SIZE, display.get_height() - TILE_SIZE, TILE_SIZE):
-            rect = pygame.Rect(x, y, TILE_SIZE, TILE_SIZE)
+    for x in range(s.TILE_SIZE, display.get_width() - s.TILE_SIZE, s.TILE_SIZE):
+        for y in range(s.TILE_SIZE, display.get_height() - s.TILE_SIZE, s.TILE_SIZE):
+            rect = pygame.Rect(x, y, s.TILE_SIZE, s.TILE_SIZE)
             pygame.draw.rect(display, (255, 255, 255), rect, 1)
 
 

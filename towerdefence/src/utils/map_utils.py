@@ -1,6 +1,7 @@
 import json
 from statics import *
 
+
 def save_map(file, map):
     try:
         with open(file, "w") as f:
@@ -8,7 +9,7 @@ def save_map(file, map):
         return True
     except IOError as e:
         print("Failed to save map", e)
-    
+
     return False
 
 
@@ -27,5 +28,5 @@ def load_map(file):
     except IOError as e:
         print("Failed to load map:", e)
         return None
-    
+
     return out_map
