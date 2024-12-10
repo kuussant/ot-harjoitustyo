@@ -68,7 +68,7 @@ poetry run invoke lint
 
 ### Pelaaminen
 
-Pelissä voi toistaiseksi asetella puolustajia hiiren vasemmalla napilla ja vihollisia hiiren oikealla napilla
+Puolustajia voi ostaa hiiren vasemmalla klikillä, ja kierroksen voi käynnistää välilyönnillä.
 
 ### Editori
 
