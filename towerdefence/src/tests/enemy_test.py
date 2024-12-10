@@ -1,16 +1,18 @@
 import unittest
 import pygame
+import utils.asset_utils
+import statics
 
 from sprites.enemy import Enemy
 from pygame.math import Vector2
 
-
 class TestEnemy(unittest.TestCase):
     def setUp(self):
         pygame.init()
-        pygame.display.set_mode((800, 600))
+        pygame.display.set_mode((100, 100))
+        self.assets = utils.asset_utils.load()
         self.path_nodes = [(0, 0), (100, 100)]
-        self.enemy = Enemy(10, 2, self.path_nodes)
+        self.enemy = Enemy(self.assets, statics.GOBLIN_GRUNT, self.path_nodes)
 
         self.enemy_group = pygame.sprite.Group()
         self.enemy_group.add(self.enemy)
@@ -18,17 +20,17 @@ class TestEnemy(unittest.TestCase):
         self.clock = pygame.time.Clock()
 
     def test_enemy_takes_the_correct_amount_of_damage(self):
-        self.enemy._deal_damage(5)
+        self.enemy.deal_damage(2)
 
-        self.assertEqual(self.enemy.hp, 5)
+        self.assertEqual(self.enemy.hp, 1)
 
     def test_can_not_deal_negative_damage_to_enemy(self):
-        self.enemy._deal_damage(-5)
+        self.enemy.deal_damage(-5)
 
-        self.assertEqual(self.enemy.hp, 10)
+        self.assertEqual(self.enemy.hp, 3)
 
     def test_enemy_dies_when_health_drops_to_zero_or_below(self):
-        self.enemy._deal_damage(10)
+        self.enemy.deal_damage(3)
 
         self.assertEqual(self.enemy.hp, 0)
 
