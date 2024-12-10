@@ -89,4 +89,6 @@ Kontrollit:
 Jotta vihollispolku toimii, on rakennettava polku vihollisten tukikohdasta (puinen rakennus) pelaajan tukikohtaan (linna).
 Kartalla saa olla vain yksi vihollistukikohta ja yksi pelaajan linna, jotta vihollispolku olisi validi.
 
+(Editorin ei kuulu olla virallinen osa projektia, vaan työkalu joka helpottaa karttojen kanssa työskentelyä!)
+
 
