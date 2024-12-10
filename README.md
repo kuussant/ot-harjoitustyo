@@ -72,7 +72,7 @@ Puolustajia voi ostaa hiiren vasemmalla klikillä, ja kierroksen voi käynnistä
 
 ### Editori
 
-Pelissä on editori jonka voi avata komennolla:
+Projekti sisältää editori-työkalun, jolla voi halutessaan leikkiä:
 
 ```bash
 poetry run invoke editor
