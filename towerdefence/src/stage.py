@@ -3,13 +3,13 @@ import random
 from collections import deque
 
 import utils.editor_utils as eu
-import utils.asset_utils
 import statics as s
 import sound
 
 from sprites.defender import Defender
 from sprites.enemy import Enemy
 from sprites.map import Map
+from defender_data import DEFENDER_DATA
 
 
 class Stage:
@@ -31,15 +31,15 @@ class Stage:
         bullet_group: Sprite group for bullets
         tile_group: Sprite group for map tiles
     """
-    def __init__(self, map_file, spawn_data):
+    def __init__(self, assets, map_file, spawn_data):
         """The stage constructor, where the stage is created.
 
         Args:
             map_file: A json-file containing map data.
             spawn_data: A dictionary containing enemy spawning data.
         """
-        self.money = 100
-        self.assets = utils.asset_utils.load()
+        self.money = 50
+        self.assets = assets
         self.map = Map(self.assets, eu.load_map(
             map_file), (s.TILE_SIZE, s.TILE_SIZE))
         self.path_nodes = self.map.get_path()
@@ -135,7 +135,7 @@ class Stage:
         return self.stage_won
 
     # Needs defender type
-    def add_defender(self, pos):
+    def add_defender(self, defender_type, pos):
         """Adds a defender on the map.
 
         Args:
@@ -148,21 +148,20 @@ class Stage:
         if tile_index:
             defender = self.play_area[tile_index[0]][tile_index[1]]
             if defender is None:
-                if self.money >= 100:
+                if self.money >= DEFENDER_DATA[defender_type]["cost"]:
                     tile_center = eu.get_tile_center_by_index(
                         tile_index, self.map.get_pos())
 
-                    new_defender = Defender(
-                        self.assets, 3, 100, 1, tile_center)
+                    new_defender = Defender(self.assets, defender_type, tile_center)
                     self.play_area[tile_index[0]][tile_index[1]] = new_defender
                     self.defender_group.add(new_defender)
                     self.all_sprites.add(new_defender)
-                    self.money -= 100
-                    sound.play(self.assets[1]["coin_sound2"], 0.1)
-                else:
-                    print("Not enough money")
-            else:
-                print("Space is occupied")
+                    self.money -= DEFENDER_DATA[defender_type]["cost"]
+                    sound.play(self.assets[1]["coin_sound2"], 0.3)
+                    
+                    return True
+
+        return False
 
     def check_defender(self, pos):
         """Checks if a defender is on a tile.
@@ -179,7 +178,7 @@ class Stage:
             defender = self.play_area[tile_index[0]][tile_index[1]]
 
             if defender is not None:
-                return defender
+                pass
 
         return None
 
@@ -187,11 +186,12 @@ class Stage:
         """Updates all of the elements on the stage.
     
         """
-        self.enemy_group.update()
-        self.bullet_group.update()
-        self.defender_group.update(
-            self.enemy_group, self.bullet_group, self.all_sprites)
-        self._enemy_and_bullet_collision()
+        if not self.stage_won:
+            self.enemy_group.update()
+            self.bullet_group.update()
+            self.defender_group.update(
+                self.enemy_group, self.bullet_group, self.all_sprites)
+            self._enemy_and_bullet_collision()
 
     def draw(self, display):
         """Draws the elements on the display.
@@ -229,11 +229,13 @@ class Stage:
         """Checks the collision between enemies and bullets.
 
         """
-        collide_group = pygame.sprite.groupcollide(
-            self.enemy_group, self.bullet_group, False, True)
-        for enemy, bullets in collide_group.items():
-            for bullet in bullets:
-                money_accumulated = enemy.deal_damage(bullet.damage)
-                if money_accumulated > 0:
-                    self.money += money_accumulated
-                    sound.play(self.assets[1]["coin_sound3"], 0.1)
+        if pygame.sprite.groupcollide(self.enemy_group, self.bullet_group, False, False):
+            collide_group = pygame.sprite.groupcollide(self.enemy_group, self.bullet_group, False, True, pygame.sprite.collide_mask)
+            for enemy, bullets in collide_group.items():
+                enemy_dead = False
+                for bullet in bullets:
+                    money_accumulated = enemy.deal_damage(bullet.damage)
+                    if money_accumulated > 0 and not enemy_dead:
+                        self.money += money_accumulated
+                        sound.play(self.assets[1]["coin_sound3"], 0.4)
+                        enemy_dead = True

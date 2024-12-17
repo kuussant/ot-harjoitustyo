@@ -25,7 +25,6 @@ class Map:
             for j, sprite_id in enumerate(row):
                 if sprite_id is not None:
                     img = self.tiles_list[sprite_id]
-                    tile = Tile(
-                        img, (j*TILE_SIZE+self._pos[0], i*TILE_SIZE+self._pos[1]))
+                    tile = Tile(img, (j*TILE_SIZE+self._pos[0], i*TILE_SIZE+self._pos[1]))
                     sprite_group.add(tile)
         return sprite_group

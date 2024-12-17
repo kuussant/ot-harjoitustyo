@@ -1,7 +1,7 @@
 import pygame
 from pygame.math import Vector2
-import sound
-
+import math
+from defender_data import DEFENDER_DATA
 
 class Bullet(pygame.sprite.Sprite):
     """A class for bullets that are shot (created) by defenders.
@@ -17,7 +17,7 @@ class Bullet(pygame.sprite.Sprite):
         damage: The damage dealt by the bullet.
         direction: The flying direction of the bullet.
     """
-    def __init__(self, assets, damage, pos, direction):
+    def __init__(self, assets, defender_type, pos, direction):
         """A constructor for creating a bullet.
     
         Args:
@@ -27,19 +27,21 @@ class Bullet(pygame.sprite.Sprite):
             direction: The flying direction of the bullet.
         """
         super().__init__()
-        self.sounds = assets
-        self.radius = 5
-        self.image = pygame.Surface((self.radius * 2, self.radius * 2))
-        pygame.draw.circle(self.image, (255, 0, 0),
-                           (self.radius, self.radius), self.radius)
+        self.image = assets[0][DEFENDER_DATA[defender_type]["projectile"]][0]
 
         self.pos = Vector2(pos)
         self.rect = self.image.get_rect(center=self.pos)
+        self.mask = pygame.mask.from_surface(self.image)
 
-        self.max_travel_dist = 2000
-        self.distance_travelled = 0
-        self.damage = damage
+        self.max_lifetime = 2000
+        self.start_time = pygame.time.get_ticks()
+
+        self.damage = DEFENDER_DATA[defender_type]["damage"]
+        self.speed = DEFENDER_DATA[defender_type]["projectile_speed"]
+
         self.direction = direction
+
+        self._rotate()
 
     def update(self):
         """Updates the bullets flying path.
@@ -51,10 +53,14 @@ class Bullet(pygame.sprite.Sprite):
         """Moves the bullet between starting position and direction. Gets removed after flying a certain distance.
     
         """
-        velocity = self.direction * 10
-        self.distance_travelled = (self.pos - velocity).length()
+        velocity = self.direction * self.speed
         self.pos += velocity
         self.rect.center = self.pos
 
-        if self.distance_travelled >= self.max_travel_dist:
+        if pygame.time.get_ticks() - self.start_time >= self.max_lifetime:
             self.kill()
+
+    def _rotate(self):
+        angle = math.degrees(math.atan2(-self.direction[1], self.direction[0]))+90
+        self.image = pygame.transform.rotate(self.image, angle)
+        self.rect = self.image.get_rect(center=self.pos)

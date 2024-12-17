@@ -1,11 +1,16 @@
-import pygame
 import math
 import random
-import statics as s
 import sound
+
+import pygame
 from pygame.math import Vector2
 from wave_data import ENEMY_DATA
 
+# FRAME_DELAY = 100
+# ANGLE_OFFSET = 90
+# CLOSE_ENOUGH_TO_WAYPOINT = 2
+
+"TODO FIX DOCSTRINGS"
 
 class Enemy(pygame.sprite.Sprite):
     """Enemy class. Enemies attack the home base.
@@ -27,7 +32,11 @@ class Enemy(pygame.sprite.Sprite):
         pos: The current position of the enemy.
         rect: A rectangle object of the enemy, needed in rendering.
     """
-    def __init__(self, assets, enemy_type, path_nodes):
+    FRAME_DELAY = 100
+    ANGLE_OFFSET = 90
+    CLOSE_ENOUGH_TO_WAYPOINT = 2
+
+    def __init__(self, assets, type, waypoints):
         """Enemy constructor. Creates a new enemy.
 
         Args:
@@ -42,20 +51,20 @@ class Enemy(pygame.sprite.Sprite):
         self.money_value = None
         self.sprite_list = []
 
-        self._load_data(enemy_type)
+        self._load_data(type)
 
-        self.path_nodes = path_nodes
+        self.waypoints = waypoints
         self.next_node = 1
         self.reached_end_node = False
 
-        self.frame_delay = 100
         self.animation_index = random.randint(0, len(self.sprite_list)-1)
         self.update_time = 0
 
         self.image = self.sprite_list[self.animation_index]
 
-        self.pos = Vector2(self.path_nodes[0])
+        self.pos = Vector2(self.waypoints[0])
         self.rect = self.image.get_rect(center=self.pos)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def deal_damage(self, damage):
         """Damages the enemy by taking hp away according to damage dealt.
@@ -68,7 +77,7 @@ class Enemy(pygame.sprite.Sprite):
             self.hp -= damage
             if self.hp <= 0:
                 self.kill()
-                sound.play(self._choose_random_death_sound(), 0.1)
+                sound.play(random.choice(self._get_death_sounds()), 0.1)
                 return self.money_value
         return 0
 
@@ -76,18 +85,17 @@ class Enemy(pygame.sprite.Sprite):
         """Method for moving the enemy and rotating it towards the direction it is moving.
 
         """
-        if self.next_node < len(self.path_nodes):
-            target = Vector2(self.path_nodes[self.next_node])
+        if self.next_node < len(self.waypoints):
+            target = Vector2(self.waypoints[self.next_node])
             distance = target - self.pos
 
-            if distance.length() < 2 * self.movement_speed:
+            if distance.length() < self.CLOSE_ENOUGH_TO_WAYPOINT * self.movement_speed:
                 self.next_node += 1
-            normalized = distance.normalize()
-
-            self.pos += normalized * self.movement_speed
-            self.rect.center = self.pos
-
-            self._rotate(normalized)
+            else:
+                direction = distance.normalize()
+                self.pos += direction * self.movement_speed
+                self.rect.center = self.pos
+                self._rotate(direction)
         else:
             self.reached_end_node = True
 
@@ -96,7 +104,7 @@ class Enemy(pygame.sprite.Sprite):
         Args:
             normalized: The normalized 2D vector that is needed for image rotation.
         """
-        self.angle = math.degrees(math.atan2(-normalized[1], normalized[0]))+90
+        self.angle = math.degrees(math.atan2(-normalized[1], normalized[0]))+self.ANGLE_OFFSET
         self.image = pygame.transform.rotate(
             self.sprite_list[self.animation_index], self.angle)
 
@@ -120,27 +128,22 @@ class Enemy(pygame.sprite.Sprite):
         """Plays the enemy animations.
         
         """
-        if pygame.time.get_ticks() - self.update_time > self.frame_delay:
+        if pygame.time.get_ticks() - self.update_time > self.FRAME_DELAY:
             self.update_time = pygame.time.get_ticks()
             self.animation_index += 1
             if self.animation_index >= len(self.sprite_list):
                 self.animation_index = 0
 
-    def _choose_random_death_sound(self):
-        """Chooses a random death sound for Enemy when it's killed.
+    def _get_death_sounds(self):
+        """Get death sounds.
         
         """
-        death_sound = None
-        rand = random.randint(1, 3)
-        if rand == 0:
-            death_sound = self.assets[1]["goblin_death1"]
-        elif rand == 1:
-            death_sound = self.assets[1]["goblin_death2"]
-        elif rand == 2:
-            death_sound = self.assets[1]["goblin_death3"]
-        elif rand == 3:
-            death_sound = self.assets[1]["goblin_death4"]
-        return death_sound
+        return [
+            self.assets[1]["goblin_death1"],
+            self.assets[1]["goblin_death2"],
+            self.assets[1]["goblin_death3"],
+            self.assets[1]["goblin_death4"]
+        ]
 
     def _load_data(self, enemy_type):
         """Loads all of the necessary enemy data based on enemy type.

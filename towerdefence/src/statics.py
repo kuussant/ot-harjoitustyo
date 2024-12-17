@@ -21,6 +21,8 @@ GOB_BASE_TILE = (21, 24)
 # Asset names
 NO_TYPE = "no_type"
 MAP_TILES = "map_tiles"
-DEFENDER_PVT = "defender_private"
+DEFENDER_PVT = "defender_pvt"
+DEFENDER_SGT = "defender_sgt"
 GOBLIN_GRUNT = "goblin_grunt"
 GOBLIN_BRUTE = "goblin_brute"
+BOLT = "bolt"

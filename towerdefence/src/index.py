@@ -1,5 +1,6 @@
 import sys
 from game import Game
+from menu import Menu
 from map_editor import MapEditor
 
 
@@ -9,8 +10,10 @@ def main():
         return
 
     if sys.argv[1] == "game":
-        game = Game()
-        game.start_game()
+        # game = Game()
+        # game.start_game()
+        menu = Menu()
+        menu.start()
     elif sys.argv[1] == "editor":
         editor = MapEditor()
         editor.start_editor()

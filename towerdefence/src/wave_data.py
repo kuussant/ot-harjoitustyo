@@ -63,12 +63,12 @@ ENEMY_DATA = {
     statics.GOBLIN_GRUNT: {
         "hp": 3,
         "speed": 2,
-        "value": 10
+        "value": 7
     },
 
     statics.GOBLIN_BRUTE: {
         "hp": 15,
         "speed": 1.5,
-        "value": 20
+        "value": 15
     }
 }
